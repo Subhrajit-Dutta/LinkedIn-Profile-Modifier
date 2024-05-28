@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Profile Picture Modifier",
+  "version": "1.0",
+  "description": "This extension replaces LinkedIn profile pictures in the feed with a specified image.",
+  "permissions": ["activeTab", "webRequest", "webRequestBlocking"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/feed/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
