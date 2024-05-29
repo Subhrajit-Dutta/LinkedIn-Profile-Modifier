@@ -1,5 +1,18 @@
-const newProfilePicURL =
-  "https://i.pinimg.com/736x/32/7e/db/327edb9a15b304efc264668ada03f725.jpg";
+const unsplashApiUrl = 'https://api.unsplash.com/photos/random?client_id=KweZ84B-zgusF5_8uYMAkxSjKHGltAY93EgvjQ_tVdw';
+
+async function fetchNewProfilePicURL() {
+  try {
+    const response = await fetch(unsplashApiUrl);
+    if (!response.ok) {
+      throw new Error('Failed to fetch image from Unsplash');
+    }
+    const data = await response.json();
+    return data.urls.small;
+  } catch (error) {
+    console.error('Error fetching new profile picture URL:', error);
+    return null;
+  }
+}
 
 function isProfilePicture(img) {
   const width = img.width;
@@ -13,7 +26,13 @@ function isProfilePicture(img) {
   return isProfilePicSize || hasProfilePicAlt;
 }
 
-function replaceProfilePictures() {
+async function replaceProfilePictures() {
+  const newProfilePicURL = await fetchNewProfilePicURL();
+  if (!newProfilePicURL) {
+    console.error('No new profile picture URL available.');
+    return;
+  }
+
   const profilePicSelectors = [
     "img.ivm-view-attr__img--centered.EntityPhoto-circle-3.update-components-actor__avatar-image",
     "img.ivm-view-attr__img--centered.EntityPhoto-circle-0.evi-image.lazy-image.ember-view",
